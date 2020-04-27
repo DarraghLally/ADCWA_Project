@@ -5,14 +5,25 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Add Customer</title>
+<title>New Order</title>
 </head>
 <body>
-	<form:form modelAttribute="customer">
+	<form:form modelAttribute="order">
 		<table>
 			<tr>
-				<td>Customer Name:</td>
-				<td><form:input path="cName"></form:input></td>
+				<td>Customer:</td>
+				<td><form:select path="cust" items="${customerNames}"/></td>
+				<td><form:errors path="cust.cId"></form:errors></td>
+			</tr>
+			<tr>
+				<td>Product:</td>
+				<td><form:select path="prod" items="${productNames}"/></td>
+				<td><form:errors path="prod.pId"></form:errors></td>
+			</tr>
+			<tr>
+				<td>Quantity:</td>
+				<td><form:input path="qty"></form:input></td>
+				<td><form:errors path="qty"></form:errors></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="Add" /></td>
