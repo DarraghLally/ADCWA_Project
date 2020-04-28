@@ -24,7 +24,7 @@ import com.sales.services.OrderService;
 import com.sales.services.ProductService;
 
 @Controller
-@SessionAttributes({ "product", "customer", "order" })
+@SessionAttributes({ "product", "customer", "order", "customerNames", "productNames" })
 public class MainController {
 	@Autowired
 	ProductService ps;
@@ -115,20 +115,6 @@ public class MainController {
 	@RequestMapping(value = "/newOrder.html", method = RequestMethod.POST)
 	public String newOrderPOST(@Valid @ModelAttribute("order") Order o, BindingResult br, Model m) {
 		if (br.hasErrors()) {
-			// Customer Names
-			ArrayList<Customer> cust = cs.listAllCustomers();
-			Map<Long, String> customerNames = new LinkedHashMap<Long, String>();
-			for (Customer c : cust) {
-				customerNames.put(c.getcId(), c.getcName());
-			}
-			m.addAttribute("customerNames", customerNames);
-			// Product Descriptions
-			ArrayList<Product> prod = ps.listAllProducts();
-			Map<Long, String> productNames = new LinkedHashMap<Long, String>();
-			for (Product p : prod) {
-				productNames.put(p.getpId(), p.getpDesc());
-			}
-			m.addAttribute("productNames", productNames);
 			return "newOrder";
 		}
 		// Set Date on Order
