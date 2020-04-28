@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="CUSTOMERS")
@@ -21,7 +21,7 @@ public class Customer {
 	private Long cId;
 
 	@Column(name="CNAME")
-	@NotBlank
+	@NotEmpty(message = "May not be empty")
 	private String cName;
 	
 	@OneToMany(mappedBy="cust")

@@ -1,10 +1,11 @@
 package com.sales.controllers;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,10 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/addProduct.html", method = RequestMethod.POST)
-	public String addProductPOST(@ModelAttribute("product") Product p) {
+	public String addProductPOST(@Valid @ModelAttribute("product") Product p, BindingResult br) {
+		if(br.hasErrors()){
+			return "addProduct";
+		}
 		ps.saveProduct(p);
 		return "redirect:showProducts.html";
 	}
@@ -66,7 +70,10 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/addCustomer.html", method = RequestMethod.POST)
-	public String addCustomerPOST(@ModelAttribute("customer") Customer c) {
+	public String addCustomerPOST(@Valid @ModelAttribute("customer") Customer c, BindingResult br) {
+		if(br.hasErrors()) {
+			return "addCustomer";
+		}
 		cs.saveCustomer(c);
 		return "redirect:showCustomers.html";
 	}
@@ -106,13 +113,29 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/newOrder.html", method = RequestMethod.POST)
-	public String newOrderPOST(@ModelAttribute("order") Order o, BindingResult result) {
-		if (result.hasErrors()) {
-			return "addOrder";
+	public String newOrderPOST(@Valid @ModelAttribute("order") Order o, BindingResult br, Model m) {
+		if (br.hasErrors()) {
+			// Customer Names
+			ArrayList<Customer> cust = cs.listAllCustomers();
+			Map<Long, String> customerNames = new LinkedHashMap<Long, String>();
+			for (Customer c : cust) {
+				customerNames.put(c.getcId(), c.getcName());
+			}
+			m.addAttribute("customerNames", customerNames);
+			// Product Descriptions
+			ArrayList<Product> prod = ps.listAllProducts();
+			Map<Long, String> productNames = new LinkedHashMap<Long, String>();
+			for (Product p : prod) {
+				productNames.put(p.getpId(), p.getpDesc());
+			}
+			m.addAttribute("productNames", productNames);
+			return "newOrder";
 		}
-		// Get date and parse to a string
-		String orderDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-		o.setOrderDate(orderDate);
+		// Set Date on Order
+		os.setDate(o);
+		// Set new Stock quantity
+		os.setNewQty(o);
+		// Save the order
 		os.saveOrder(o);
 		return "redirect:showOrders.html";
 	}

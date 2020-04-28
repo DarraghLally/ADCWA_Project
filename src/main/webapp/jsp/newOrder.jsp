@@ -13,12 +13,12 @@
 			<tr>
 				<td>Customer:</td>
 				<td><form:select path="cust" items="${customerNames}"/></td>
-				<td><form:errors path="cust.cId"></form:errors></td>
+				<td><form:errors path="cust" items="${customerNames}"></form:errors></td>
 			</tr>
 			<tr>
 				<td>Product:</td>
 				<td><form:select path="prod" items="${productNames}"/></td>
-				<td><form:errors path="prod.pId"></form:errors></td>
+				<td><form:errors path="prod" items="${productNames}"></form:errors></td>
 			</tr>
 			<tr>
 				<td>Quantity:</td>

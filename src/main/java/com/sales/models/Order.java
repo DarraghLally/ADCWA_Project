@@ -21,7 +21,7 @@ public class Order {
 	@Column(name="OID")
 	private Long oId;
 	
-	@Min(1)
+	@Min(value = 1)
 	@Column(name="QTY")
 	private int qty;
 	

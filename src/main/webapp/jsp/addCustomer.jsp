@@ -13,6 +13,7 @@
 			<tr>
 				<td>Customer Name:</td>
 				<td><form:input path="cName"></form:input></td>
+				<td><form:errors path="cName"></form:errors></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="Add" /></td>
