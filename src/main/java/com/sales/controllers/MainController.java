@@ -1,6 +1,8 @@
 package com.sales.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -81,13 +83,15 @@ public class MainController {
 	// ====================================================================
 	@RequestMapping(value = "/newOrder.html", method = RequestMethod.GET)
 	public String newOrderGET(Model model) {
+		// Customer Names
 		ArrayList<Customer> cust = cs.listAllCustomers();
 		Map<Long, String> customerNames = new LinkedHashMap<Long, String>();
 		for (Customer c : cust) {
 			customerNames.put(c.getcId(), c.getcName());
 		}
 		model.addAttribute("customerNames", customerNames);
-		
+
+		// Product Descriptions
 		ArrayList<Product> prod = ps.listAllProducts();
 		Map<Long, String> productNames = new LinkedHashMap<Long, String>();
 		for (Product p : prod) {
@@ -95,8 +99,9 @@ public class MainController {
 		}
 		model.addAttribute("productNames", productNames);
 		
-		Order order = new Order();
-		model.addAttribute("order", order);
+		// Order
+		Order o = new Order();
+		model.addAttribute("order", o);
 		return "newOrder";
 	}
 
@@ -105,6 +110,9 @@ public class MainController {
 		if (result.hasErrors()) {
 			return "addOrder";
 		}
+		// Get date and parse to a string
+		String orderDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+		o.setOrderDate(orderDate);
 		os.saveOrder(o);
 		return "redirect:showOrders.html";
 	}
