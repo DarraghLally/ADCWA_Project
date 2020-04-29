@@ -6,22 +6,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
+/*
+ * This class is taking care of the security req's for the project. 
+ * Changed from the template as that code didn't work for my version of Spring.
+ * References: 
+ * https://stackoverflow.com/questions/20848312/how-to-correctly-logout-user-in-spring-security
+ * https://stackoverflow.com/questions/35218354/difference-between-registerglobal-configure-configureglobal-configureglo
+ */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	/*
-	@Autowired
-	public void configureGlobalSecurity(AuthenticationManagerBuilder amb)  throws Exception{
-		amb.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance())
-		.withUser("user").password("user").roles("USER", "ADMIN");
-	}
-	
-	@Override
-	protected void configure(HttpSecurity hs) throws Exception{
-		hs.authorizeRequests().antMatchers("/login", "/h2-console/**").permitAll().antMatchers("/addCustomer.html")
-	}
-	*/
-	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -36,14 +29,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void ConfigureGlobal(AuthenticationManagerBuilder amb) throws Exception{
 		amb.inMemoryAuthentication().withUser("user").password("user").roles("USER");
 	}
-	/*
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
-	}
-	*/
-
 }
