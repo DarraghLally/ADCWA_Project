@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sales.exceptions.InsufficientStockException;
+import com.sales.exceptions.NoSuchCustomerException;
 import com.sales.models.Order;
 import com.sales.repositories.OrderRepository;
 
@@ -16,13 +17,24 @@ public class OrderService {
 
 	@Autowired
 	OrderRepository or;
+	@Autowired
+	CustomerService cs;
 
 	public void saveOrder(Order o) throws InsufficientStockException{
 		try {
+			cs.searchCustomers(o.getCust().getcId());
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new NoSuchCustomerException("Customer and/or Product does not exist");
+		}
+		
+		try {
+			// Try to save the order
 			or.save(o);
 		}
 		catch (Exception e) {
-			throw new InsufficientStockException("Quantity Too Large: Product Stock = " + (o.getProd().getQtyInStock() + o.getQty()));
+			// TODO: handle exception
+			throw new InsufficientStockException("Quantity too large: Product Stock = " + (o.getProd().getQtyInStock() + o.getQty()));
 		}
 		
 	}

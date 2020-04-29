@@ -20,4 +20,8 @@ public class CustomerService {
 	public ArrayList<Customer> listAllCustomers(){
 		return (ArrayList<Customer>) cr.findAll();
 	}
+	
+	public Customer searchCustomers(long cId) {
+		return cr.findOne(cId);
+	}
 }

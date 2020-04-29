@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.sales.exceptions.InsufficientStockException;
+import com.sales.exceptions.NoSuchCustomerException;
 import com.sales.models.Customer;
 import com.sales.models.Order;
 import com.sales.models.Product;
@@ -133,7 +134,10 @@ public class MainController {
 			return "redirect:showOrders.html";
 		}catch(InsufficientStockException e) {
 			m.addAttribute("error", e);
-			return "errorInsufficientStock";
+			return "errorWithOrder";
+		}catch(NoSuchCustomerException e) {
+			m.addAttribute("error", e);
+			return "errorWithOrder";
 		}		
 	}
 
