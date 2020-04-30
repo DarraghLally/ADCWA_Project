@@ -20,4 +20,8 @@ public class ProductService {
 	public ArrayList<Product> listAllProducts(){
 		return (ArrayList<Product>) pr.findAll();
 	}
+	
+	public Product searchProducts(long pId) {
+		return pr.findOne(pId);
+	}
 }

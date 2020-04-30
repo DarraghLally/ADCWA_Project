@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.sales.exceptions.InsufficientStockException;
 import com.sales.exceptions.NoSuchCustomerException;
+import com.sales.exceptions.NoSuchProductException;
 import com.sales.models.Order;
 import com.sales.repositories.OrderRepository;
 
@@ -19,12 +20,17 @@ public class OrderService {
 	OrderRepository or;
 	@Autowired
 	CustomerService cs;
+	@Autowired
+	ProductService ps;
 
-	public void saveOrder(Order o) throws InsufficientStockException{
+	public void saveOrder(Order o) throws InsufficientStockException, NoSuchCustomerException, NoSuchProductException{
 		try {
+			// See if product exists
+			ps.searchProducts(o.getProd().getpId());
+			// See if customer exists
 			cs.searchCustomers(o.getCust().getcId());
 		} catch (Exception e) {
-			// TODO: handle exception
+			// Handle exception, if either customer or product cannot be found
 			throw new NoSuchCustomerException("Customer and/or Product does not exist");
 		}
 		
@@ -33,7 +39,7 @@ public class OrderService {
 			or.save(o);
 		}
 		catch (Exception e) {
-			// TODO: handle exception
+			// Handle exception, if there is not enough stock to fill the order
 			throw new InsufficientStockException("Quantity too large: Product Stock = " + (o.getProd().getQtyInStock() + o.getQty()));
 		}
 		

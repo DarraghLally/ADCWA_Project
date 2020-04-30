@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.sales.exceptions.InsufficientStockException;
 import com.sales.exceptions.NoSuchCustomerException;
+import com.sales.exceptions.NoSuchProductException;
 import com.sales.models.Customer;
 import com.sales.models.Order;
 import com.sales.models.Product;
@@ -138,7 +139,10 @@ public class MainController {
 		}catch(NoSuchCustomerException e) {
 			m.addAttribute("error", e);
 			return "errorWithOrder";
-		}		
+		}catch(NoSuchProductException e) {
+			m.addAttribute("error", e);
+			return "errorWithOrder";
+		}	
 	}
 
 	@RequestMapping(value = "/showOrders.html", method = RequestMethod.GET)
